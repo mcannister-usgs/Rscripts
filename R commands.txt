@@ -1,0 +1,90 @@
+Helpful Websites
+https://en.wikibooks.org/wiki/R_Programming
+http://www.cookbook-r.com/Graphs/
+http://www.statmethods.net/
+
+PACKAGES
+stringr
+sqldf
+plyr
+reshape2
+RODBC
+taxize
+
+
+sessionInfo()
+traceback()
+
+system.time()
+
+Using ^ and $ as Start of Line and End of Line Anchors
+	Therefore, all the regex engines discussed in this tutorial have the option to expand the meaning of both anchors. ^ can then match at the start of the string (before the f in the above string), as well as after each line break (between \n and s). Likewise, $ still matches at the end of the string (after the last e), and also before every line break (between e and \n).
+
+# Find all columns of class 'factor' and convert them to class 'character'.
+i <- sapply(bob, is.factor)
+bob[i] <- lapply(bob[i], as.character)
+
+# Superassignment operator - A global variable can be written to from within a function using this operator, so long as the variable exists prior to the function call
+<<-	
+
+rm()
+	Removes object named within parentheses
+	
+ifelse(test, yes, no)
+	
+melt()
+	"Convert an object into a molten data frame" - Use this to make individual records for each species when species info are in adjacent columns, maintaining the shared spatial/temporal data
+	vocal <- melt(qryVocalizationData, id=1:9,measure=10:39,variable.name="Species", value.name="Presence")
+	
+row.names(vocal) <- NULL
+	Removes the "ghost" column containing old row names from original database prior to running subset()
+
+str_replace_all()
+	vocal$SpeciesCode <- str_replace_all(vocal$SpeciesCode, "Abundance","")
+
+str_length()
+	vocal <- subset(vocal,str_length(c(SpeciesCode)) < 5)   
+		This gets ride of all rows where the length of SpeciesCode is not less than 5
+		
+rbind()
+	lut_Species <- rbind(tbl_Species, tbl_Species2)
+		Combine data rows from two (or more) data frame with matches column names (columns do not have to be in the same order)
+
+order()
+	lut_Species <- lut_Species[with(lut_Species, order(SpeciesCode)),]
+		Sort based on ascending/descending column named within parenth. with() is necessary if you are calling column by name rather than number. precede column name with negative for descending order.
+
+NARCAM_L1$basis_of_record[NARCAM_L1$footnote!="NULL"]<-"literature"
+	where my dataframe is NARCAM_L1, the column where I wanted to change a value is basis_of_record, and the column that had the criteria for basing that change is called footnote. 
+	This replaced the existing value of the column basis_of_record with the string "literature" in those cases where the column footnote was not equal to the string "NULL".
+	
+str()
+	shows list element(s) and associated values on the same line, cleaning up the display quite a bit
+	
+# returns string w/o leading whitespace
+trim.leading <- function (x)  sub("^\\s+", "", x)
+
+# returns string w/o trailing whitespace
+trim.trailing <- function (x) sub("\\s+$", "", x)
+
+#catches errors and uses alternate function if error occurs.
+TSNstart <- function() {
+	tryCatch(getTSN(lut_species), error = function(e) TSNstart())
+	}
+
+# returns string w/o leading or trailing whitespace
+trim <- function (x) gsub("^\\s+|\\s+$", "", x)
+	myDummy$country <- trim(myDummy$country)
+	
+test$C1 <- strsplit(as.character(test$CompDate), split = ' ')	
+	
+NAS_Fishes2[suppressWarnings(!is.na(as.numeric(NAS_Fishes2$no_collected))) != TRUE,]$otherComments <- NAS_Fishes2[suppressWarnings(!is.na(as.numeric(NAS_Fishes2$no_collected))) != TRUE,]$no_collected
+	Finds only non-numeric values in a column and copies those values into another column.
+>x <- c(88,5,12,13)
+> x <- c(x[1:3],168,x[4]) # insert 168 before the 13
+
+
+## Generate ISO date for records with full Year and Month, but no Day
+NAS_Fishes2[as.numeric(NAS_Fishes2$Month_) > 0 & NAS_Fishes2$Day_ == "00",]$ObservationDateTime <- paste(
+  NAS_Fishes2[as.numeric(NAS_Fishes2$Month_) > 0 & NAS_Fishes2$Day_ == "00",]$Year_, 
+  NAS_Fishes2[as.numeric(NAS_Fishes2$Month_) > 0 & NAS_Fishes2$Day_ == "00",]$Month_, sep="-")
